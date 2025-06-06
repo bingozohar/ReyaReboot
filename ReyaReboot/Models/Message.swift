@@ -16,12 +16,13 @@ class Message: Identifiable {
     var conversation: Conversation?
     
     var role: Role
-    var timestamp: Date
     var content: String
+    var timestamp: Date
     
-    init(type: Role, timestamp: Date = Date.now, content: String) {
+    
+    init(type: Role, content: String, timestamp: Date = .now) {
         self.role = type
-        self.timestamp = timestamp
         self.content = content
+        self.timestamp = timestamp
     }
 }
