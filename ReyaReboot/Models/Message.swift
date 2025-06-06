@@ -18,11 +18,24 @@ class Message: Identifiable {
     var role: Role
     var content: String
     var timestamp: Date
-    
-    
-    init(type: Role, content: String, timestamp: Date = .now) {
-        self.role = type
+
+    init(role: Role, content: String, timestamp: Date = .now) {
+        self.role = role
         self.content = content
         self.timestamp = timestamp
+    }
+}
+
+extension Message {
+    static func user(_ content: String) -> Message {
+        Message(role: .user, content: content)
+    }
+    
+    static func assistant(_ content: String) -> Message {
+        Message(role: .assistant, content: content)
+    }
+    
+    static func system(_ content: String) -> Message {
+        Message(role: .system, content: content)
     }
 }

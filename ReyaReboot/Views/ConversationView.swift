@@ -24,3 +24,15 @@ struct ConversationView: View {
         .padding(.vertical, 8)
     }
 }
+
+#Preview {
+    do {
+        ConversationView(
+            messages: [
+                .system("You are a helpful assistant."),
+                .user("Question"),
+                .assistant("Answer")
+            ]
+        )
+    }
+}

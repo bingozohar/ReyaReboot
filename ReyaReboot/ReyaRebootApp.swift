@@ -31,3 +31,8 @@ struct ReyaMLXApp: App {
         .modelContainer(sharedModelContainer)
     }
 }
+
+enum ReyaStatus: String, Codable {
+    case ready
+    case busy
+}

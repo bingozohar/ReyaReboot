@@ -36,32 +36,41 @@ struct MessageView: View {
     }
     
     var body: some View {
-        HStack(alignment: .center) {
-            if (message.role == .assistant) {
+        switch message.role {
+        case .user:
+            HStack {
                 Spacer()
                 Rectangle().fill(
                     Color.mint
                 )
                 .frame(width: 2)
+                Markdown(message.content)
+                    .textSelection(.enabled)
+                    .padding(10)
             }
-            Markdown(message.content)
-                .textSelection(.enabled)
-                .padding(10)
-            
-            if (message.role == .user) {
+        case .assistant:
+            HStack {
+                Markdown(message.content)
+                    .textSelection(.enabled)
+                    .padding(10)
                 Rectangle().fill(
                     Color.purple)
                 .frame(width: 2)
                 Spacer()
             }
+        case .system:
+            Label(message.content, systemImage: "desktopcomputer")
+                .font(.headline)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
         }
-        .padding(5)
     }
 }
 
 #Preview {
     VStack() {
-        MessageView(.init(type: .user, content: "Question"))
-        MessageView(.init(type: .assistant, content: "Answer"))
+        MessageView(.system("You are a helpful assistant."))
+        MessageView(.user("Question"))
+        MessageView(.assistant("Answer"))
     }
 }

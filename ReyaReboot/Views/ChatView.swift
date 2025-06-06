@@ -11,6 +11,8 @@ import SwiftData
 struct ChatView: View {
     @Environment(\.modelContext) var modelContext
     
+    
+    
     var body: some View {
         NavigationStack {
             //ConversationView()
