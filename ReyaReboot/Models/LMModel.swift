@@ -5,6 +5,9 @@
 //  Created by Romaryc Pelissie on 06/06/2025.
 //
 
+import MLX
+import MLXLLM
+import MLXVLM
 import MLXLMCommon
 
 /// Represents a language model configuration with its associated properties and type.
@@ -59,4 +62,18 @@ extension LMModel: Identifiable, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
+}
+
+extension LMModel {
+    static let availableModels: [String: LMModel] = [
+        "mistral:7b": LMModel(
+            name: "mistral:7b",
+            configuration: LLMRegistry.mistral7B4bit,
+            type: .llm),
+        "llama3.2:3b": LMModel(
+            name: "llama3.2:3b",
+            configuration: LLMRegistry.llama3_2_3B_4bit,
+            type: .llm
+        )
+    ]
 }

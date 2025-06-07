@@ -14,13 +14,6 @@ import MLXLMCommon
 
 @Observable
 class MLXService {
-    
-    /// List of available models that can be used for generation.
-    static let availableModels: [LMModel] = [
-        LMModel(name: "qwen3:0.6b", configuration: LLMRegistry.qwen3_0_6b_4bit, type: .llm),
-        LMModel(name: "llama3.2:1b", configuration: LLMRegistry.llama3_2_1B_4bit, type: .llm)
-    ]
-    
     /// Cache to store loaded model containers to avoid reloading.
     private let modelCache = NSCache<NSString, ModelContainer>()
     

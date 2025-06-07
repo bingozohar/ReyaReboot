@@ -19,8 +19,8 @@ struct ConversationView: View {
                         .padding(.horizontal, 12)
                 }
             }
-            .defaultScrollAnchor(.bottom, for: .sizeChanges)
         }
+        .defaultScrollAnchor(.bottom/*, for: .sizeChanges*/)
         .padding(.vertical, 8)
     }
 }
@@ -28,11 +28,7 @@ struct ConversationView: View {
 #Preview {
     do {
         ConversationView(
-            messages: [
-                .system("You are a helpful assistant."),
-                .user("Question"),
-                .assistant("Answer")
-            ]
+            messages: SampleData.conversation
         )
     }
 }

@@ -9,18 +9,20 @@ import SwiftUI
 
 struct WritePromptView: View {
     @Binding var prompt: String
-    var status: ReyaStatus
-    var sendMessage: () -> Void
+    @State private var task: Task<Void, Never>?
+    
+    var status: Status
+    let sendButtonAction: () async-> Void
     
     var body: some View {
         HStack {
             TextField("Write your message here", text: $prompt, axis: .vertical)
                 .padding()
                 .onSubmit {
-                    sendMessage()
+                    handleSendAction()
                 }
             
-            Button(action: sendMessage) {
+            Button(action: handleSendAction) {
                 if status == .busy {
                     ProgressView()
                         .scaleEffect(0.4)
@@ -39,6 +41,26 @@ struct WritePromptView: View {
             .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                       || status != .ready)
         }
+    }
+    
+    private func handleSendAction() {
+        if isRunning {
+            task?.cancel()
+            removeTask()
+        } else {
+            task = Task {
+                await sendButtonAction()
+                removeTask()
+            }
+        }
+    }
+    
+    private var isRunning: Bool {
+        task != nil && !(task!.isCancelled)
+    }
+    
+    private func removeTask() {
+        task = nil
     }
 }
 

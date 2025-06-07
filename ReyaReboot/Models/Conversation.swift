@@ -12,23 +12,23 @@ import SwiftData
 class Conversation: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
     
-    var model: String
     var persona: Persona
     var timestamp: Date
     
     @Relationship(deleteRule: .cascade)
-    var items: [Message] = []
+    var messages: [Message] = []
     
-    init(timestamp: Date = Date.now, model: String, persona: Persona) {
+    init(timestamp: Date = Date.now, persona: Persona) {
         self.timestamp = timestamp
-        self.model = model
-        self.items = []
+        self.messages = [
+            .system(persona.prompt)
+        ]
         self.persona = persona
     }
 }
 
 extension Conversation {
-    var sortedItems: [Message] {
-        return items.sorted { $0.timestamp < $1.timestamp }
+    var sortedMessages: [Message] {
+        return messages.sorted { $0.timestamp < $1.timestamp }
     }
 }
