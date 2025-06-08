@@ -31,7 +31,7 @@ struct ChatView: View {
                     status: chatViewModel.status,
                     sendButtonAction: chatViewModel.generate
                 )
-                //.padding()
+                //.border(width: 2, edges: [.top], color: .mint)
             }
             .navigationTitle(chatViewModel.conversation!.persona.id)
             .toolbar {
@@ -39,7 +39,6 @@ struct ChatView: View {
             }
             .sheet(isPresented: $showingPersonaSelector) {
                 PersonaSelectorSheet(personaViewModel: personaViewModel) { persona in
-                    print(persona.id)
                     chatViewModel.selectPersona(persona: persona)
                 }
             }

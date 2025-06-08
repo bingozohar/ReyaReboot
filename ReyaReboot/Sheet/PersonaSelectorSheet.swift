@@ -40,7 +40,7 @@ struct PersonaSelectorSheet: View {
             .padding(.vertical, 16)
             .padding(.horizontal, 10)
         }
-        .navigationTitle(Text("Persona Selector"))
+        //.navigationTitle(Text("Persona Selector"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel", role: .cancel) {

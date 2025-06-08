@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftData
+import OllamaKit
+import Defaults
 
 @Model
 class Message: Identifiable {
@@ -37,5 +39,36 @@ extension Message {
     
     static func system(_ content: String) -> Message {
         Message(role: .system, content: content)
+    }
+}
+
+extension Message {
+    static func toOKChatRequestData(messages: [Message], model: String) -> OKChatRequestData {
+        var requestMessages = [OKChatRequestData.Message]()
+        
+        for message in messages {
+            let role: OKChatRequestData.Message.Role =
+            switch message.role {
+            case .assistant:
+                    .assistant
+            case .user:
+                    .user
+            case .system:
+                    .system
+            }
+            let chatMessage = OKChatRequestData.Message(role: role, content: message.content)
+            requestMessages.append(chatMessage)
+        }
+        
+        let options = OKCompletionOptions(
+            temperature: Defaults[.defaultTemperature],
+            topK: Defaults[.defaultTopK],
+            topP: Defaults[.defaultTopP]
+        )
+        
+        var data = OKChatRequestData(model: model, messages: requestMessages)
+        data.options = options
+        
+        return data
     }
 }

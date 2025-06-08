@@ -8,11 +8,12 @@
 import Foundation
 import SwiftData
 import SwiftUI
-//import MLXLMCommon
+import Defaults
 
 @Observable
 @MainActor
 class ChatViewModel {
+    private let useOllama: Bool = Defaults[.useOllama]
     private let dataSource: ConversationDataSource
     //private var modelContext: ModelContext
     
@@ -85,21 +86,44 @@ class ChatViewModel {
         clear(.prompt)
 
         generateTask = Task {
-            // Process generation chunks and update UI
-            for await generation in try await mlxService.generate(
-                messages: conversation!.sortedMessages, model: selectedModel)
-            {
-                switch generation {
-                case .chunk(let chunk):
-                    // Append new text to the current assistant message
-                    if let assistantMessage = conversation!.sortedMessages.last {
-                        assistantMessage.content += chunk
-                    }
-                case .info(let info):
-                    // Update performance metrics
-                    //generateCompletionInfo = info
-                    print(" INFO: ", info)
+            do {
+                let unifiedService = UnifiedGenerationService()
+                
+                for try await result in unifiedService.generate(
+                    messages: conversation!.sortedMessages,
+                    model: selectedModel,
+                    useOllama: selectedModel.provider == .ollama
+                ) {
+                    handleGenerationResult(result)
                 }
+                /*if useOllama {
+                    let ollamaService = OllamaService()
+                    for try await chunk in ollamaService.generate(messages: conversation!.sortedMessages, model: selectedModel) {
+                        if let assistantMessage = conversation!.sortedMessages.last {
+                            assistantMessage.content += chunk.message?.content ?? ""
+                        }
+                    }
+                }
+                else {
+                    // Process generation chunks and update UI
+                    for await generation in try await mlxService.generate(
+                        messages: conversation!.sortedMessages, model: selectedModel)
+                    {
+                        switch generation {
+                        case .chunk(let chunk):
+                            // Append new text to the current assistant message
+                            if let assistantMessage = conversation!.sortedMessages.last {
+                                assistantMessage.content += chunk
+                            }
+                        case .info(let info):
+                            // Update performance metrics
+                            //generateCompletionInfo = info
+                            print(" INFO: ", info)
+                        }
+                    }
+                }*/
+            } catch {
+                errorMessage = error.localizedDescription
             }
             status = .ready
         }
@@ -123,6 +147,24 @@ class ChatViewModel {
             errorMessage = error.localizedDescription
         }
         generateTask = nil
+    }
+    
+    @MainActor
+    private func handleGenerationResult(_ result: GenerationResult) {
+        guard let assistantMessage = conversation!.sortedMessages.last else { return }
+        
+        switch result {
+        case .ollamaChunk(let chunk):
+            assistantMessage.content += chunk.message?.content ?? ""
+            
+        case .mlxGeneration(let generation):
+            switch generation {
+            case .chunk(let chunk):
+                assistantMessage.content += chunk
+            case .info(let info):
+                print("INFO: ", info)
+            }
+        }
     }
     
     // Clears various aspects of the chat state based on provided options

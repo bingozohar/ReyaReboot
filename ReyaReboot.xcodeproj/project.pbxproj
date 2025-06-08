@@ -15,6 +15,7 @@
 		9EAED4852DF35AB600A064B4 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9EAED4842DF35AB600A064B4 /* Defaults */; };
 		9EAED49E2DF3661600A064B4 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9EAED49D2DF3661600A064B4 /* MarkdownUI */; };
 		9EAED4A12DF3666B00A064B4 /* ViewCondition in Frameworks */ = {isa = PBXBuildFile; productRef = 9EAED4A02DF3666B00A064B4 /* ViewCondition */; };
+		9EC0C92F2DF4CE6900C79EF9 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9EC0C92E2DF4CE6900C79EF9 /* OllamaKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 				9EAED45D2DF3563000A064B4 /* MLXMNIST in Frameworks */,
 				9EAED45B2DF3563000A064B4 /* MLXLMCommon in Frameworks */,
 				9EAED45F2DF3563000A064B4 /* MLXVLM in Frameworks */,
+				9EC0C92F2DF4CE6900C79EF9 /* OllamaKit in Frameworks */,
 				9EAED4592DF3563000A064B4 /* MLXLLM in Frameworks */,
 				9EAED4612DF3563000A064B4 /* StableDiffusion in Frameworks */,
 				9EAED4A12DF3666B00A064B4 /* ViewCondition in Frameworks */,
@@ -92,6 +94,7 @@
 				9EAED4842DF35AB600A064B4 /* Defaults */,
 				9EAED49D2DF3661600A064B4 /* MarkdownUI */,
 				9EAED4A02DF3666B00A064B4 /* ViewCondition */,
+				9EC0C92E2DF4CE6900C79EF9 /* OllamaKit */,
 			);
 			productName = ReyaMLX;
 			productReference = 9EAED43D2DF3543200A064B4 /* ReyaReboot.app */;
@@ -126,6 +129,7 @@
 				9EAED4832DF35AB600A064B4 /* XCRemoteSwiftPackageReference "Defaults" */,
 				9EAED49C2DF3661600A064B4 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				9EAED49F2DF3666B00A064B4 /* XCRemoteSwiftPackageReference "ViewCondition" */,
+				9EC0C92D2DF4CE6900C79EF9 /* XCRemoteSwiftPackageReference "OllamaKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9EAED43E2DF3543200A064B4 /* Products */;
@@ -396,6 +400,14 @@
 				minimumVersion = 2.0.1;
 			};
 		};
+		9EC0C92D2DF4CE6900C79EF9 /* XCRemoteSwiftPackageReference "OllamaKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kevinhermawan/OllamaKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.8;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -438,6 +450,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9EAED49F2DF3666B00A064B4 /* XCRemoteSwiftPackageReference "ViewCondition" */;
 			productName = ViewCondition;
+		};
+		9EC0C92E2DF4CE6900C79EF9 /* OllamaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9EC0C92D2DF4CE6900C79EF9 /* XCRemoteSwiftPackageReference "OllamaKit" */;
+			productName = OllamaKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

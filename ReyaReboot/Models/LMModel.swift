@@ -21,13 +21,20 @@ struct LMModel {
 
     /// Type of the model (language or vision-language)
     let type: ModelType
-
+    
+    let provider: ProviderType
+    
     /// Defines the type of language model
     enum ModelType {
         /// Large language model (text-only)
         case llm
         /// Vision-language model (supports images and text)
         case vlm
+    }
+    
+    enum ProviderType {
+        case mlx
+        case ollama
     }
 }
 
@@ -69,11 +76,20 @@ extension LMModel {
         "mistral:7b": LMModel(
             name: "mistral:7b",
             configuration: LLMRegistry.mistral7B4bit,
-            type: .llm),
+            type: .llm,
+            provider: .mlx
+        ),
         "llama3.2:3b": LMModel(
             name: "llama3.2:3b",
             configuration: LLMRegistry.llama3_2_3B_4bit,
-            type: .llm
+            type: .llm,
+            provider: .mlx
+        ),
+        "gemma3:4b": LMModel(
+            name: "gemma3:4b",
+            configuration: ModelConfiguration(id: "gemma3:4b"),
+            type: .llm,
+            provider: .ollama
         )
     ]
 }
